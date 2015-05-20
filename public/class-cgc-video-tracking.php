@@ -225,8 +225,8 @@ class CGC_Video_Tracking {
 		$table_name = $wpdb->base_prefix . 'cgc_video_tracking';
 
 		$sql = "CREATE TABLE $table_name (
-		     	video_id bigint(20) NOT NULL,
-		     	user_id bigint(20) NOT NULL,
+		     	video_id mediumint(9) NOT NULL,
+		     	user_id mediumint NOT NULL,
 		     	percent decimal(5,2) NOT NULL,
 		      	KEY `video_id` (`video_id`)
 		    );";

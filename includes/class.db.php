@@ -35,20 +35,35 @@ class CGC_Video_Tracking_DB {
 		$add = $wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO {$this->table} SET
-					`video_id`  = '%d',
+					`video_id`  = '%s',
 					`user_id`  	= '%d',
-					`percent`	= '%d'
+					`percent`	= '%s'
 				;",
-				absint( $args['video_id'] ),
+				sanitize_text_field( $args['video_id'] ),
 				absint( $args['user_id'] ),
-				absint( $args['percent'] )
+				filter_var( $args['percent'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
 			)
 		);
 
-		if ( $add )
-			return $wpdb->insert_id;
+		return $add ? $wpdb->insert_id : false;
+	}
 
-		return false;
+	public function drop_progress( $video_id = 0, $user_id = 0 ) {
+
+		global $wpdb;
+
+		$drop = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$this->table} WHERE
+					`video_id`  = '%s' AND
+					`user_id`   = '%d'
+				;",
+				sanitize_text_field( $video_id ),
+				absint( $user_id )
+			)
+		);
+
+		return $drop ? true : false;
 	}
 
 }
