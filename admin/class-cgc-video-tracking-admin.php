@@ -39,10 +39,6 @@ class CGC_Video_Tracking_Admin {
 
 		$plugin = CGC_Video_Tracking::get_instance();
 		$this->plugin_slug = $plugin->get_plugin_slug();
-
-
-		require_once CGC_VIDEO_TRACKING_DIR.'admin/includes/process.data.php';
-
 	}
 
 	/**

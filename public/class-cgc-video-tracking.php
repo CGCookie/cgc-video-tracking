@@ -64,7 +64,7 @@ class CGC_Video_Tracking {
 
 		require CGC_VIDEO_TRACKING_DIR.'/includes/class.db.php';
 		require CGC_VIDEO_TRACKING_DIR.'/includes/helpers.php';
-		//require CGC_VIDEO_TRACKING_DIR.'/includes/class.process.php';
+		require CGC_VIDEO_TRACKING_DIR.'/includes/process.data.php';
 	}
 
 	/**
@@ -225,7 +225,7 @@ class CGC_Video_Tracking {
 		$table_name = $wpdb->base_prefix . 'cgc_video_tracking';
 
 		$sql = "CREATE TABLE $table_name (
-		     	video_id mediumint(9) NOT NULL,
+		     	video_id varchar(20) NOT NULL,
 		     	user_id mediumint NOT NULL,
 		     	percent decimal(5,2) NOT NULL,
 		      	KEY `video_id` (`video_id`)

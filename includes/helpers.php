@@ -5,7 +5,7 @@
 *	@param $args array an array of data to be recorded into the database
 *	@since 5.0
 */
-function cgc_video_tracking_add_progress( $video_id = '', $percent = 0 ){
+function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0 ){
 
 	// bail out if we dont' have a video id or percent
 	if ( empty( $video_id ) || empty( $percent ) )
