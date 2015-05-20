@@ -66,4 +66,23 @@ class CGC_Video_Tracking_DB {
 		return $drop ? true : false;
 	}
 
+	/**
+	*	Get the progress of a video by user id
+	*	@param $user_id int id of the user to get the progress for
+	*	@param $video_id string if of the video to get the progress for
+	*/
+	public function get_user_progress( $user_id = 0 , $video_id = 0 ) {
+
+		global $wpdb;
+
+		$out = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT percent FROM {$this->table} WHERE user_id='%d' AND video_id='%s';", absint( $user_id ), sanitize_text_field( $video_id )
+			)
+		);
+
+		return $out ? $out : false;
+
+	}
+
 }

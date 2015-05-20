@@ -24,3 +24,18 @@ function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0 ){
 	$db->drop_progress( $video_id, $user_id );
 	$db->update_progress( $args );
 }
+
+
+function cgc_video_tracking_get_user_progress( $user_id = 0, $video_id = 0 ) {
+
+	if ( empty( $user_id ) )
+		$user_id = get_current_user_ID();
+
+	if ( empty( $video_id ) )
+		return;
+
+	$db = new CGC_Video_Tracking_DB;
+	$out = $db->get_user_progress( $user_id, $video_id );
+
+	return !empty( $out ) ? $out : false;
+}
