@@ -26,6 +26,11 @@ function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0 ){
 }
 
 
+/**
+*	Get the progress of a video by user id
+*	@param $user_id int id of the user to get the progress for
+*	@param $video_id string if of the video to get the progress for
+*/
 function cgc_video_tracking_get_user_progress( $user_id = 0, $video_id = 0 ) {
 
 	if ( empty( $user_id ) )

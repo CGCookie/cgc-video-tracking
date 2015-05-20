@@ -48,6 +48,11 @@ class CGC_Video_Tracking_DB {
 		return $add ? $wpdb->insert_id : false;
 	}
 
+	/**
+	*	Delete a users progress by video and user id
+	*	@param $user_id int id of the user todrop the progress for
+	*	@param $video_id string if of the video to drop the progress for
+	*/
 	public function drop_progress( $video_id = 0, $user_id = 0 ) {
 
 		global $wpdb;
