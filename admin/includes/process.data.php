@@ -9,7 +9,7 @@ class cgcVideoTrackingProcess {
 
 	function __construct(){
 
-		add_action('wp_ajax_process_share_love',				array($this,'add_progress'));
+		add_action('wp_ajax_process_video_progress',				array($this,'add_progress'));
 
 	}
 
