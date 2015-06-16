@@ -94,13 +94,15 @@ class CGC_Video_Tracking_DB {
 	*	Get all the videos this user has watched
 	*	@param $user_id int id of the user to get the videos for
 	*/
-	public function get_total_watched_percent( $user_id = 0 ) {
+	public function get_total_watched_percent( $user_id = 0, $time = false ) {
 
 		global $wpdb;
 
+		$last_week = true == $time ? 'AND DATEDIFF(NOW(), created_at) <= 7' : null;
+
 		$out = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT percent FROM {$this->table} WHERE user_id='%d';", absint( $user_id )
+				"SELECT percent FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
 			)
 		);
 
