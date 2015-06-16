@@ -44,3 +44,20 @@ function cgc_video_tracking_get_user_progress( $user_id = 0, $video_id = 0 ) {
 
 	return !empty( $out ) ? $out : false;
 }
+
+
+/**
+*	Return an array of percentages on videos watched for this user
+*
+*	@param $user_id int id of the user to get the videos for
+*/
+function cgc_video_tracking_get_users_videos( $user_id = 0 ) {
+
+	if ( empty( $user_id ) )
+		$user_id = get_current_user_ID();
+
+	$db = new CGC_Video_Tracking_DB;
+	$out = $db->get_total_watched_percent( $user_id );
+
+	return !empty( $out ) ? $out : false;
+}
