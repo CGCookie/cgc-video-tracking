@@ -54,7 +54,7 @@ function cgc_video_tracking_get_user_progress( $user_id = 0, $video_id = 0 ) {
 *	@param $user_id int id of the user to get the videos for
 *	@param $time bool should we return the total watched within the last week
 */
-function cgc_video_tracking_get_users_videos( $user_id = 0, $time = false ) {
+function cgc_video_tracking_get_total_watched( $user_id = 0, $time = false ) {
 
 	if ( empty( $user_id ) )
 		$user_id = get_current_user_ID();
@@ -62,7 +62,7 @@ function cgc_video_tracking_get_users_videos( $user_id = 0, $time = false ) {
 	$db = new CGC_Video_Tracking_DB;
 
 
-	$out = $db->get_total_watched_percent( $user_id, $time );
+	$out = $db->get_total_watched_length( $user_id, $time );
 
 	return !empty( $out ) ? $out : false;
 }

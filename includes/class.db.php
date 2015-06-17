@@ -97,10 +97,29 @@ class CGC_Video_Tracking_DB {
 	}
 
 	/**
+	*	Get the length of a wistia video by id
+	*	@param $video_id string if of the video to get the length for
+	*	@return length in seconds
+	*/
+	public function get_video_length( $video_id = 0 ) {
+
+		global $wpdb;
+
+		$out = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT length FROM {$this->table} WHERE video_id='%s';", sanitize_text_field( $video_id )
+			)
+		);
+
+		return $out ? $out : false;
+	}
+
+	/**
 	*	Get all the videos this user has watched
 	*	@param $user_id int id of the user to get the videos for
+	*	@return the sum of all lengths of all videos this user has watched returned in seconds
 	*/
-	public function get_total_watched_percent( $user_id = 0, $time = false ) {
+	public function get_total_watched_length( $user_id = 0, $time = false ) {
 
 		global $wpdb;
 
@@ -108,7 +127,7 @@ class CGC_Video_Tracking_DB {
 
 		$out = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT percent FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
+				"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
 			)
 		);
 
