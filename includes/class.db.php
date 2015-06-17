@@ -25,9 +25,11 @@ class CGC_Video_Tracking_DB {
 		global $wpdb;
 
 		$defaults = array(
-			'video_id'	=> '',
-			'user_id'	=> '',
-			'percent'	=> ''
+			'video_id'		=> '',
+			'user_id'		=> '',
+			'percent'		=> '',
+			'length'		=> '', // stores in total seconds
+			'created_at' 	=> time()
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -35,13 +37,17 @@ class CGC_Video_Tracking_DB {
 		$add = $wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO {$this->table} SET
-					`video_id`  = '%s',
-					`user_id`  	= '%d',
-					`percent`	= '%s'
+					`video_id`  	= '%s',
+					`user_id`  		= '%d',
+					`percent`		= '%s',
+					`length`		= '%s',
+					`created_at`	= '%s'
 				;",
 				sanitize_text_field( $args['video_id'] ),
 				absint( $args['user_id'] ),
-				filter_var( $args['percent'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
+				filter_var( $args['percent'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ),
+				sanitize_text_field( $args['length'] ), // point rounding
+				date_i18n( 'Y-m-d H:i:s', $args['created_at'], true )
 			)
 		);
 

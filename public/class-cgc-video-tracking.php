@@ -228,6 +228,7 @@ class CGC_Video_Tracking {
 		     	video_id varchar(20) NOT NULL,
 		     	user_id mediumint NOT NULL,
 		     	percent decimal(5,2) NOT NULL,
+		     	length mediumint NOT NULL,
 		     	created_at datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 		      	KEY `video_id` (`video_id`)
 		    );";
