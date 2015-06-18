@@ -80,5 +80,7 @@ function cgc_video_tracking_get_last_video( $user_id = 0 ) {
 
 	$out = $db->get_last_watched( $user_id );
 
+	var_dump($out);
+
 	return !empty( $out ) ? $out : false;
 }

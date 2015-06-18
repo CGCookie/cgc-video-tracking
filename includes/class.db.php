@@ -143,13 +143,13 @@ class CGC_Video_Tracking_DB {
 
 		global $wpdb;
 
-		$out = $wpdb->get_col(
+		$out = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT video_id FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT 1;", absint( $user_id )
+				"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT 1;", absint( $user_id )
 			)
 		);
 
-		return $out ? $out : false;
+		return $out ? $out[0] : false;
 	}
 
 }
