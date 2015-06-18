@@ -134,4 +134,22 @@ class CGC_Video_Tracking_DB {
 		return $out ? $out : false;
 	}
 
+	/**
+	*	Get the last video this use has recorded progress for
+	*	@param $user_id int id of the user to get the info for
+	*	@return string video id
+	*/
+	public function get_last_watched( $user_id = 0 ) {
+
+		global $wpdb;
+
+		$out = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT video_id FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT 1;", absint( $user_id )
+			)
+		);
+
+		return $out ? $out : false;
+	}
+
 }

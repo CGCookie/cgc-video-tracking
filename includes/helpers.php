@@ -66,3 +66,19 @@ function cgc_video_tracking_get_total_watched( $user_id = 0, $time = false ) {
 
 	return !empty( $out ) ? $out : false;
 }
+
+/**
+*	Return the last video that a user has watched
+*	@param $user_id int id of the user to get the last watched video for
+*/
+function cgc_video_tracking_get_last_video( $user_id = 0 ) {
+
+	if ( empty( $user_id ) )
+		$user_id = get_current_user_ID();
+
+	$db = new CGC_Video_Tracking_DB;
+
+	$out = $db->get_last_watched( $user_id );
+
+	return !empty( $out ) ? $out : false;
+}
