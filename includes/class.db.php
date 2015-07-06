@@ -63,25 +63,32 @@ class CGC_Video_Tracking_DB {
 
 		global $wpdb;
 
+		$new_progress = $args['percent'];
 		$old_progress = cgc_video_tracking_get_user_progress( $args['user_id'], $args['video_id'] );
-		$progress 	  = ( (float) $old_progress + (float) $args['percent'] );
+		$old_progress = $old_progress ? $old_progress[0] : false;
 
-		if ( $progress > 95.0 ) {
-			return;
+		$update = false;
+
+		// if we're at 100% dont record anymore
+		if ( $old_progress > 100.0 ) {
+			return false;
 		}
 
-		$update = $wpdb->query(
-			$wpdb->update(
-				$this->table,
-				array(
-					'percent' => filter_var( $progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
-				),
-				array(
-					'user_id' => absint( $args['user_id'] ),
-					'video_id' => sanitize_text_field( $args['video_id'] )
+		if ( $new_progress >= $old_progress ) {
+
+			$update = $wpdb->query(
+				$wpdb->update(
+					$this->table,
+					array(
+						'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
+					),
+					array(
+						'user_id' => absint( $args['user_id'] ),
+						'video_id' => sanitize_text_field( $args['video_id'] )
+					)
 				)
-			)
-		);
+			);
+		}
 
 		return $update ? $update : false;
 	}
