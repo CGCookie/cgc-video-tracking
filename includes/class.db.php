@@ -74,6 +74,7 @@ class CGC_Video_Tracking_DB {
 			return false;
 		}
 
+		// if new progress is greater than old progress
 		if ( $new_progress >= $old_progress ) {
 
 			$update = $wpdb->query(
