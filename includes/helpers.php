@@ -15,6 +15,13 @@ function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0, $length =
 
 	$db = new CGC_Video_Tracking_DB;
 
+	$last_progress = cgc_video_tracking_get_user_progress( $user_id, $video_id );
+
+	// if the progress for this video is already above 95% dont re-record and reset
+	if ( $last_progress > 0.95 ) {
+		return;
+	}
+
 	$args = array(
 		'video_id' 		=> $video_id,
 		'user_id'		=> $user_id,
