@@ -20,7 +20,7 @@ class CGC_Video_Tracking_DB {
 	*
 	*	@since 5.0
 	*/
-	public function update_progress( $args = array() ) {
+	public function add_progress( $args = array() ) {
 
 		global $wpdb;
 
@@ -52,6 +52,38 @@ class CGC_Video_Tracking_DB {
 		);
 
 		return $add ? $wpdb->insert_id : false;
+	}
+
+	/**
+	*	Update existing progress
+	*
+	*	@since 5.0
+	*/
+	public function update_progress( $args = array() ) {
+
+		global $wpdb;
+
+		$old_progress = cgc_video_tracking_get_user_progress( $args['user_id'], $args['video_id'] );
+		$progress 	  = ( (float) $old_progress + (float) $args['percent'] );
+
+		if ( $progress > 95.0 ) {
+			return;
+		}
+
+		$update = $wpdb->query(
+			$wpdb->update(
+				$this->table,
+				array(
+					'percent' => filter_var( $progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
+				),
+				array(
+					'user_id' => absint( $args['user_id'] ),
+					'video_id' => sanitize_text_field( $args['video_id'] )
+				)
+			)
+		);
+
+		return $update ? $update : false;
 	}
 
 	/**

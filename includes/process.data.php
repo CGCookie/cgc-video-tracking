@@ -30,7 +30,16 @@ class cgcVideoTrackingProcess {
 	    		$percent    = isset( $_POST['percent'] ) ? $_POST['percent'] : false;
 	    		$length    = isset( $_POST['length'] ) ? $_POST['length'] : false;
 
-	    		cgc_video_tracking_add_progress( $video_id, $percent, $length );
+				$has_progress = cgc_video_tracking_get_user_progress( $user_id, $video_id );
+
+				if ( $has_progress ) {
+
+					cgc_video_tracking_update_progress( $video_id, $percent );
+
+				} else {
+
+	    			cgc_video_tracking_add_progress( $video_id, $percent, $length );
+	    		}
 
 		       	wp_send_json_success();
 
