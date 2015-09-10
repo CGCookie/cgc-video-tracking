@@ -179,17 +179,17 @@ class CGC_Video_Tracking_DB {
 	*	@param $user_id int id of the user to get the info for
 	*	@return string video id
 	*/
-	public function get_last_watched( $user_id = 0 ) {
+	public function get_recently_watched( $user_id = 0, $count = 0 ) {
 
 		global $wpdb;
 
 		$out = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT 1;", absint( $user_id )
-			)
+				"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT %d;", absint( $user_id ), absint( $count )
+			), ARRAY_A
 		);
 
-		return $out ? $out[0] : false;
+		return $out ? $out : false;
 	}
 
 }
