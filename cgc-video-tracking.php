@@ -21,19 +21,15 @@ if ( ! defined( 'WPINC' ) ) {
 
 // Set some constants
 define('CGC_VIDEO_TRACKING_VERSION', '5.0.2');
-define('CGC_VIDEO_TRACKING_DIR', plugin_dir_path( __FILE__ ));
+
 define('CGC_VIDEO_TRACKING_URL', plugins_url( '', __FILE__ ));
 
-require_once( plugin_dir_path( __FILE__ ) . 'public/class-cgc-video-tracking.php' );
+register_activation_hook( __FILE__, array( 'cgcVideoTracking', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'cgcVideoTracking', 'deactivate' ) );
 
-register_activation_hook( __FILE__, array( 'CGC_Video_Tracking', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'CGC_Video_Tracking', 'deactivate' ) );
-
-add_action( 'plugins_loaded', array( 'CGC_Video_Tracking', 'get_instance' ) );
-
+add_action( 'plugins_loaded', array( 'cgcVideoTracking', 'get_instance' ) );
 if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-cgc-video-tracking-admin.php' );
-	add_action( 'plugins_loaded', array( 'CGC_Video_Tracking_Admin', 'get_instance' ) );
+	add_action( 'plugins_loaded', array( 'cgcVideoTrackingAdmin', 'get_instance' ) );
 
 }

@@ -13,7 +13,7 @@ function cgc_video_tracking_remove_progress( $video_id = 0 ){
 
 	$user_id = get_current_user_ID();
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 
 	$db->drop_progress( $video_id, $user_id );
 }
@@ -31,7 +31,7 @@ function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0, $length =
 
 	$user_id = get_current_user_ID();
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 
 	$args = array(
 		'video_id' 		=> $video_id,
@@ -58,7 +58,7 @@ function cgc_video_tracking_update_progress( $video_id = 0, $percent = 0 ){
 
 	$user_id = get_current_user_ID();
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 
 	$args = array(
 		'video_id' 		=> $video_id,
@@ -83,7 +83,7 @@ function cgc_video_tracking_get_user_progress( $user_id = 0, $video_id = 0 ) {
 	if ( empty( $video_id ) )
 		return;
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 	$out = $db->get_user_progress( $user_id, $video_id );
 
 	return !empty( $out ) ? $out : false;
@@ -101,7 +101,7 @@ function cgc_video_tracking_get_total_watched( $user_id = 0, $time = false ) {
 	if ( empty( $user_id ) )
 		$user_id = get_current_user_ID();
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 
 
 	$out = $db->get_total_watched_length( $user_id, $time );
@@ -119,7 +119,7 @@ function cgc_video_tracking_get_recently_watched( $user_id = 0, $count = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = get_current_user_ID();
 
-	$db = new CGC_Video_Tracking_DB;
+	$db = new cgcVideoTrackingDb;
 
 	$out = $db->get_recently_watched( $user_id, $count );
 

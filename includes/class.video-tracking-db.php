@@ -1,6 +1,6 @@
 <?php
 
-class CGC_Video_Tracking_DB {
+class cgcVideoTrackingDb {
 
 
 	private $table;

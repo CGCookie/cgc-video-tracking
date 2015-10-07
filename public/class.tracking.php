@@ -2,7 +2,7 @@
 /**
  * CGC Video Tracking
  *
- * @package   CGC_Video_Tracking
+ * @package   cgcVideoTracking
  * @author    Nick Haskins <nick@cgcookie.com>
  * @license   GPL-2.0+
  * @link      http://example.com
@@ -14,10 +14,10 @@
  * public-facing side of the WordPress site.
  *
  *
- * @package CGC_Video_Tracking
+ * @package cgcVideoTracking
  * @author  Nick Haskins <nick@cgcookie.com>
  */
-class CGC_Video_Tracking {
+class cgcVideoTracking {
 
 	/**
 	 * Plugin version, used for cache-busting of style and script file references.
@@ -62,9 +62,10 @@ class CGC_Video_Tracking {
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
-		require CGC_VIDEO_TRACKING_DIR.'/includes/class.db.php';
+		new cgcVideoTrackingDb();
 		require CGC_VIDEO_TRACKING_DIR.'/includes/helpers.php';
-		require CGC_VIDEO_TRACKING_DIR.'/includes/process.data.php';
+
+
 	}
 
 	/**

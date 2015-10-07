@@ -2,14 +2,14 @@
 /**
  * CGC Video Tracking
  *
- * @package   CGC_Video_Tracking_Admin
+ * @package   cgcVideoTrackingAdmin
  * @author    Nick Haskins <nick@cgcookie.com>
  * @license   GPL-2.0+
  * @link      http://example.com
  * @copyright 2014 Your Name or Company Name
  */
 
-class CGC_Video_Tracking_Admin {
+class cgcVideoTrackingAdmin {
 
 	/**c
 	 * Instance of this class.
@@ -37,7 +37,7 @@ class CGC_Video_Tracking_Admin {
 	 */
 	private function __construct() {
 
-		$plugin = CGC_Video_Tracking::get_instance();
+		$plugin = cgcVideoTracking::get_instance();
 		$this->plugin_slug = $plugin->get_plugin_slug();
 	}
 

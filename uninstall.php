@@ -2,7 +2,7 @@
 /**
  * Fired when the plugin is uninstalled.
  *
- * @package   CGC_Video_Tracking
+ * @package   cgcVideoTracking
  * @author    Nick Haskins <nick@cgcookie.com>
  * @license   GPL-2.0+
  * @link      http://example.com
