@@ -5,7 +5,7 @@
 *
 *	@since 5.0
 */
-class cgcVideoTrackingProcess implements cgc_ApiInterface {
+class cgcVideoTrackingProcess implements cgcApiInterface {
 
 
 
@@ -105,17 +105,17 @@ class cgcVideoTrackingProcess implements cgc_ApiInterface {
 			'video_id' => array(
 				'default'            => 0,
 				'type'               => 'integer',
-				'sanitize_callback'  => 'absint',
+				'sanitize_callback'  => 'cgc_rest_api_safe_string',
 			),
 			'percent' => array(
 				'default'            => 0,
 				'type'               => 'integer',
-				'sanitize_callback'  => 'absint',
+				'sanitize_callback'  => 'cgc_rest_api_ensure_float',
 			),
 			'length' => array(
 				'default'            => 0,
 				'type'               => 'integer',
-				'sanitize_callback'  => 'absint',
+				'sanitize_callback'  => 'cgc_rest_api_ensure_float',
 			),
 
 		);
