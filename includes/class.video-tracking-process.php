@@ -14,7 +14,7 @@ class cgcVideoTrackingProcess implements cgcApiInterface {
 	*  @deprecated
 	*	@since 5.0
 	*/
-	function add_progress(){
+	static public function add_progress( $data, $method ){
 
 
 		if ( isset( $_POST['action'] ) && $_POST['action'] == 'process_video_progress' ) {
@@ -58,7 +58,7 @@ class cgcVideoTrackingProcess implements cgcApiInterface {
 	 *
 	 * @return array|string|WP_Error
 	 */
-	static public function process( $data ) {
+	static public function process( $data, $method ) {
 		$user_id 	= is_user_logged_in() ? get_current_user_id() : false;
 		$video_id   = $data['video_id'];
 		$percent    = $data[ 'percent' ];
