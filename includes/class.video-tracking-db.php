@@ -77,7 +77,7 @@ class cgcVideoTrackingDb {
 		// if new progress is greater than old progress
 		if ( $new_progress >= $old_progress ) {
 
-			$update = $wpdb->query(
+			$update = //$wpdb->query(
 				$wpdb->update(
 					$this->table,
 					array(
@@ -87,8 +87,8 @@ class cgcVideoTrackingDb {
 						'user_id' => absint( $args['user_id'] ),
 						'video_id' => sanitize_text_field( $args['video_id'] )
 					)
-				)
-			);
+				);
+			//);
 		}
 
 		return $update ? $update : false;
