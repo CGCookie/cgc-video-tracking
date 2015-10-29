@@ -64,7 +64,7 @@ class cgcVideoTrackingDb {
 		global $wpdb;
 
 		// purge video progress cache for this user before retrieving and updating
-		//wp_cache_delete( 'cgc_cache--video_progress_'.$args['user_id'] );
+		wp_cache_delete(  'cgc_cache--video_progress_'.$args['user_id'].'-'.$args['video_id'] );
 
 		$new_progress = $args['percent'];
 		$old_progress = cgc_video_tracking_get_user_progress( $args['user_id'], $args['video_id'] );
@@ -124,22 +124,21 @@ class cgcVideoTrackingDb {
 	*	Get the progress of a video by user id
 	*	@param $user_id int id of the user to get the progress for
 	*	@param $video_id string if of the video to get the progress for
-	*	@note when implementing cache, it automatically sets all videos to 100% watched
 	*/
 	public function get_user_progress( $user_id = 0 , $video_id = 0 ) {
 
 		global $wpdb;
 
-		//$out =  wp_cache_get( 'cgc_cache--video_progress_'.$user_id );
+		$out =  wp_cache_get( 'cgc_cache--video_progress_'.$user_id.'-'.$video_id );
 
-		//if ( false == $out ) {
+		if ( false == $out ) {
 			$out = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT percent FROM {$this->table} WHERE user_id='%d' AND video_id='%s';", absint( $user_id ), sanitize_text_field( $video_id )
 				)
 			);
-			//wp_cache_set( 'cgc_cache--video_progress_'.$user_id, $out, '', 12 * HOUR_IN_SECONDS );
-		//}
+			wp_cache_set( 'cgc_cache--video_progress_'.$user_id.'-'.$video_id, $out, '', 12 * HOUR_IN_SECONDS );
+		}
 
 		return $out ? $out : false;
 
