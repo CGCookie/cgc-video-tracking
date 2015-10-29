@@ -181,7 +181,7 @@ class cgcVideoTrackingDb {
 
 		$last_week = true == $time ? 'AND DATEDIFF(NOW(), created_at) <= 7' : null;
 
-		$out =  wp_cache_get( 'cgc_cache--video_watched_length' );
+		$out =  wp_cache_get( 'cgc_cache--video_watched_length_'.$user_id );
 
 		if ( false == $out ) {
 			$out = $wpdb->get_col(
@@ -189,7 +189,7 @@ class cgcVideoTrackingDb {
 					"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
 				)
 			);
-			wp_cache_set( 'cgc_cache--video_watched_length', $out, '', 12 * HOUR_IN_SECONDS );
+			wp_cache_set( 'cgc_cache--video_watched_length_'.$user_id, $out, '', 12 * HOUR_IN_SECONDS );
 		}
 
 		return $out ? $out : false;
