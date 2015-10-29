@@ -134,7 +134,7 @@ class cgcVideoTrackingDb {
 
 		$out =  wp_cache_get( 'cgc_cache--video_progress_'.$user_id.'-'.$video_id );
 
-		if ( false == $out ) {
+		if ( false === $out ) {
 			$out = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT percent FROM {$this->table} WHERE user_id='%d' AND video_id='%s';", absint( $user_id ), sanitize_text_field( $video_id )
@@ -158,7 +158,7 @@ class cgcVideoTrackingDb {
 
 		$out =  wp_cache_get( 'cgc_cache--video_length' );
 
-		if ( false == $out ) {
+		if ( false === $out ) {
 			$out = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT length FROM {$this->table} WHERE video_id='%s';", sanitize_text_field( $video_id )
@@ -183,7 +183,7 @@ class cgcVideoTrackingDb {
 
 		$out =  wp_cache_get( 'cgc_cache--video_watched_length_'.$user_id );
 
-		if ( false == $out ) {
+		if ( false === $out ) {
 			$out = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
@@ -206,7 +206,7 @@ class cgcVideoTrackingDb {
 
 		$out =  wp_cache_get( 'cgc_cache--video_recently_watched_'.$user_id );
 
-		if ( false == $out ) {
+		if ( false === $out ) {
 			$out = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT %d;", absint( $user_id ), absint( $count )
