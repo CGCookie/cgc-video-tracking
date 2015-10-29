@@ -63,6 +63,9 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
+		// purge video progress cache for this user before retrieving and updating
+		wp_cache_delete( 'cgc_cache--video_progress_'.$args['user_id'] );
+
 		$new_progress = $args['percent'];
 		$old_progress = cgc_video_tracking_get_user_progress( $args['user_id'], $args['video_id'] );
 		$old_progress = $old_progress ? $old_progress[0] : false;
@@ -126,11 +129,16 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
-		$out = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT percent FROM {$this->table} WHERE user_id='%d' AND video_id='%s';", absint( $user_id ), sanitize_text_field( $video_id )
-			)
-		);
+		$out =  wp_cache_get( 'cgc_cache--video_progress_'.$user_id );
+
+		if ( false == $out ) {
+			$out = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT percent FROM {$this->table} WHERE user_id='%d' AND video_id='%s';", absint( $user_id ), sanitize_text_field( $video_id )
+				)
+			);
+			wp_cache_set( 'cgc_cache--video_progress_'.$user_id, $out, '', 12 * HOUR_IN_SECONDS );
+		}
 
 		return $out ? $out : false;
 
@@ -145,11 +153,16 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
-		$out = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT length FROM {$this->table} WHERE video_id='%s';", sanitize_text_field( $video_id )
-			)
-		);
+		$out =  wp_cache_get( 'cgc_cache--video_length' );
+
+		if ( false == $out ) {
+			$out = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT length FROM {$this->table} WHERE video_id='%s';", sanitize_text_field( $video_id )
+				)
+			);
+			wp_cache_set( 'cgc_cache--video_length', $out, '', 12 * HOUR_IN_SECONDS );
+		}
 
 		return $out ? $out : false;
 	}
@@ -165,11 +178,16 @@ class cgcVideoTrackingDb {
 
 		$last_week = true == $time ? 'AND DATEDIFF(NOW(), created_at) <= 7' : null;
 
-		$out = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
-			)
-		);
+		$out =  wp_cache_get( 'cgc_cache--video_watched_length' );
+
+		if ( false == $out ) {
+			$out = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
+				)
+			);
+			wp_cache_set( 'cgc_cache--video_watched_length', $out, '', 12 * HOUR_IN_SECONDS );
+		}
 
 		return $out ? $out : false;
 	}
@@ -183,11 +201,16 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
-		$out = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT %d;", absint( $user_id ), absint( $count )
-			), ARRAY_A
-		);
+		$out =  wp_cache_get( 'cgc_cache--video_recently_watched_'.$user_id );
+
+		if ( false == $out ) {
+			$out = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$this->table} WHERE user_id='%d' ORDER BY created_at DESC LIMIT %d;", absint( $user_id ), absint( $count )
+				), ARRAY_A
+			);
+			wp_cache_set( 'cgc_cache--video_recently_watched_'.$user_id, $out, '', 12 * HOUR_IN_SECONDS );
+		}
 
 		return $out ? $out : false;
 	}
