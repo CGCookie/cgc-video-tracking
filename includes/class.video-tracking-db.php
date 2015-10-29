@@ -63,11 +63,14 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
+		$user_id = 	isset( $args['user_id'] ) ? $args['user_id'] : false;
+		$video_id = isset( $args['video_id'] ) ? $args['video_id'] : false;
+
 		// purge video progress cache for this user before retrieving and updating
-		wp_cache_delete(  'cgc_cache--video_progress_'.$args['user_id'].'-'.$args['video_id'] );
+		wp_cache_delete(  'cgc_cache--video_progress_'.$user_id.'-'.$video_id );
 
 		$new_progress = $args['percent'];
-		$old_progress = cgc_video_tracking_get_user_progress( $args['user_id'], $args['video_id'] );
+		$old_progress = cgc_video_tracking_get_user_progress( $user_id, $video_id );
 		$old_progress = $old_progress ? $old_progress[0] : false;
 
 		$update = false;
@@ -87,8 +90,8 @@ class cgcVideoTrackingDb {
 						'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
 					),
 					array(
-						'user_id' => absint( $args['user_id'] ),
-						'video_id' => sanitize_text_field( $args['video_id'] )
+						'user_id' => absint( $user_id ),
+						'video_id' => sanitize_text_field( $video_id )
 					)
 				);
 			//);
