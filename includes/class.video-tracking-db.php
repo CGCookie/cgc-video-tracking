@@ -37,6 +37,17 @@ class cgcVideoTrackingDb {
 		$user_id = 	isset( $args['user_id'] ) ? $args['user_id'] : false;
 		$video_id = isset( $args['video_id'] ) ? $args['video_id'] : false;
 
+		$progress = filter_var( $args['percent'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
+
+		// get the id of the lesson that this video is attahed to
+		$lesson_id = function_exists('cgc_get_lesson_by_video_id') ? cgc_get_lesson_by_video_id( $video_id ) : false;
+
+		// get the id of the course that this lesson is a part of
+		$course_id = function_exists('cgc_course_get_object_parent') ? cgc_course_get_object_parent( $lesson_id ) : false;
+
+		// get the id of the flow that this course is a part of
+		$flow_id = function_exists('cgc_course_get_parent_flow') ? cgc_course_get_parent_flow( $course_id ) : false;
+
 		// purge video progress and recently watched cache for this user before retrieving and updating
 		wp_cache_delete( 'cgc_cache--video_progress_'.$user_id.'-'.$video_id );
 		wp_cache_delete( 'cgc_cache--video_recently_watched_'.$user_id );
@@ -52,11 +63,13 @@ class cgcVideoTrackingDb {
 				;",
 				sanitize_text_field( $args['video_id'] ),
 				absint( $args['user_id'] ),
-				filter_var( $args['percent'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ),
+				$progress,
 				sanitize_text_field( $args['length'] ), // point rounding
 				date_i18n( 'Y-m-d H:i:s', $args['created_at'], true )
 			)
 		);
+
+		do_action('cgc_lesson_progress_added', $user_id, $progress, $lesson_id, $course_id, $flow_id );
 
 		return $add ? $wpdb->insert_id : false;
 	}
