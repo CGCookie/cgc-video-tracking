@@ -65,6 +65,7 @@ class cgcVideoTrackingDb {
 	*	Update existing progress
 	*
 	*	@since 5.0
+	*
 	*/
 	public function update_progress( $args = array() ) {
 
@@ -88,21 +89,30 @@ class cgcVideoTrackingDb {
 			return false;
 		}
 
+		// get the id of the lesson that this video is attahed to
+		$lesson_id = function_exists('cgc_get_lesson_by_video_id') ? cgc_get_lesson_by_video_id( $video_id ) : false;
+
+		// get the id of the course that this lesson is a part of
+		$course_id = function_exists('cgc_course_get_object_parent') ? cgc_course_get_object_parent( $lesson_id ) : false;
+
+		// get the id of the flow that this course is a part of
+		$flow_id = function_exists('cgc_course_get_parent_flow') ? cgc_course_get_parent_flow( $course_id ) : false;
+
 		// if new progress is greater than old progress
 		if ( $new_progress >= $old_progress ) {
 
-			$update = //$wpdb->query(
-				$wpdb->update(
-					$this->table,
-					array(
-						'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
-					),
-					array(
-						'user_id' => absint( $user_id ),
-						'video_id' => sanitize_text_field( $video_id )
-					)
-				);
-			//);
+			$update = $wpdb->update(
+				$this->table,
+				array(
+					'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
+				),
+				array(
+					'user_id' => absint( $user_id ),
+					'video_id' => sanitize_text_field( $video_id )
+				)
+			);
+
+			do_action('cgc_lesson_progress_updated', $user_id, $new_progress, $lesson_id, $course_id, $flow_id );
 		}
 
 		return $update ? $update : false;
