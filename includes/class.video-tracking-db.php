@@ -70,6 +70,7 @@ class cgcVideoTrackingDb {
 		);
 
 		do_action('cgc_lesson_progress_added', $user_id, $progress, $lesson_id, $course_id, $flow_id );
+		do_action('cgc_lesson_progress_updated', $user_id, $progress, $lesson_id, $course_id, $flow_id );
 
 		return $add ? $wpdb->insert_id : false;
 	}
