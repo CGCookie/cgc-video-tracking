@@ -10,7 +10,7 @@
  * Plugin Name:       CGC Video Tracking
  * Plugin URI:        http://cgcookie.com
  * Description:       Records percentage watched for a video id
- * Version:           5.0.3
+ * Version:           5.0.3.1
  * GitHub Plugin URI: https://github.com/cgcookie/cgc-video-tracking
  */
 
@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Set some constants
-define('CGC_VIDEO_TRACKING_VERSION', '5.0.3');
+define('CGC_VIDEO_TRACKING_VERSION', '5.0.3.1');
 
 define('CGC_VIDEO_TRACKING_URL', plugins_url( '', __FILE__ ));
 
