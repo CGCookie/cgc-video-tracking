@@ -50,7 +50,7 @@ function cgc_video_tracking_add_progress( $video_id = 0, $percent = 0, $length =
 *	@param $args array an array of data to be recorded into the database
 *	@since 5.0.3
 */
-function cgc_video_tracking_update_progress( $video_id = 0, $percent = 0 ){
+function cgc_video_tracking_update_progress( $video_id = 0, $percent = 0, $length = 0 ){
 
 	// bail out if we dont' have a video id or percent
 	if ( empty( $video_id ) || empty( $percent ) )
@@ -63,10 +63,12 @@ function cgc_video_tracking_update_progress( $video_id = 0, $percent = 0 ){
 	$args = array(
 		'video_id' 		=> $video_id,
 		'user_id'		=> $user_id,
-		'percent'		=> $percent
+		'percent'		=> $percent,
+		'length'		=> $length
 	);
 
 	$db->update_progress( $args );
+
 }
 
 

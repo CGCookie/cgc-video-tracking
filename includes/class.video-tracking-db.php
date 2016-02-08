@@ -87,6 +87,7 @@ class cgcVideoTrackingDb {
 
 		$user_id = 	isset( $args['user_id'] ) ? $args['user_id'] : false;
 		$video_id = isset( $args['video_id'] ) ? $args['video_id'] : false;
+		$length = isset( $args['length'] ) ? $args['length'] : false;
 
 		// purge video progress and recently watched cache for this user before retrieving and updating
 		wp_cache_delete( 'cgc_cache--video_progress_'.$user_id.'-'.$video_id );
@@ -118,7 +119,8 @@ class cgcVideoTrackingDb {
 			$update = $wpdb->update(
 				$this->table,
 				array(
-					'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION )
+					'percent' => filter_var( $new_progress, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ),
+					'length' => sanitize_text_field( $length )
 				),
 				array(
 					'user_id' => absint( $user_id ),
