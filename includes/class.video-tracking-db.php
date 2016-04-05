@@ -213,18 +213,13 @@ class cgcVideoTrackingDb {
 
 		global $wpdb;
 
-		$last_week = true == $time ? 'AND DATEDIFF(NOW(), created_at) <= 7' : null;
+		$last_week = true == $time ? 'AND created_at > DATE_SUB(NOW(), INTERVAL 1 WEEK) ORDER BY created_at DESC' : false;
 
-		$out =  wp_cache_get( 'cgc_cache--video_watched_length_'.$user_id );
-
-		if ( false === $out ) {
-			$out = $wpdb->get_col(
-				$wpdb->prepare(
-					"SELECT length FROM {$this->table} WHERE user_id='%d' %s;", absint( $user_id ), $last_week
-				)
-			);
-			wp_cache_set( 'cgc_cache--video_watched_length_'.$user_id, $out, '', 12 * HOUR_IN_SECONDS );
-		}
+		$out = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT length FROM {$this->table} WHERE user_id='%d' {$last_week};", absint( $user_id )
+			)
+		);
 
 		return $out ? $out : false;
 	}

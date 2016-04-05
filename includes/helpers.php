@@ -105,7 +105,6 @@ function cgc_video_tracking_get_total_watched( $user_id = 0, $time = false ) {
 
 	$db = new cgcVideoTrackingDb;
 
-
 	$out = $db->get_total_watched_length( $user_id, $time );
 
 	return !empty( $out ) ? $out : false;
